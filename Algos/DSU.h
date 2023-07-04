@@ -6,18 +6,24 @@ using namespace std;
 
 namespace Algos
 {
-    class DSU
+    struct disjoint_set
     {
-    public:
-        DSU(int n);
-        ~DSU();
+        vector<int> par;
 
-        int find(int x);
-        void merge(int x, int y);
+        disjoint_set(int n) : par(n + 1, -1) {}
 
-    private:
-        vector<int> parent;
-        vector<int> rank;
+        int find(int v) { return par[v] < 0 ? v : par[v] = find(par[v]); }
+
+        void join(int u, int v)
+        {
+            if ((u = find(u)) != (v = find(v)))
+            {
+                if (par[u] > par[v])
+                    par[v] += par[u], par[u] = v;
+                else
+                    par[u] += par[v], par[v] = u;
+            }
+        }
     };
 }
 
